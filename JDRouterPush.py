@@ -16,7 +16,7 @@ final_result = {}
 # 设备名
 device_name = {}
 # 记录数
-records_num = 7
+records_num = 5
 # 当前版本
 version = "20210314"
 
