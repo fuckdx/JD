@@ -29,6 +29,8 @@ jobs:
           WSKEYOJF: ${{ secrets.WSKEYOJF }}
           WSKEYOOJF: ${{ secrets.WSKEYOOJF }}
           WSKEYNQZY: ${{ secrets.WSKEYNQZY }}
+          WSKEYNQBG: ${{ secrets.WSKEYNQBG }}
+          WSKEYOOOJFF: ${{ secrets.WSKEYOOOJFF }}
           DEVICENAME: ${{ secrets.DEVICENAME }}
           RECORDSNUM: ${{ secrets.RECORDSNUM }}
           SERVERPUSHKEY: ${{ secrets.SERVERPUSHKEY }}
