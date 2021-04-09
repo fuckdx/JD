@@ -16,7 +16,7 @@ final_result = {}
 # 设备名
 device_name = {}
 # 记录数
-records_num = 7
+records_num = 5
 # 当前版本
 version = "20210314"
 
@@ -193,22 +193,22 @@ def resolveDeviceName(DEVICENAME):
 
 
 # 检测更新
-def checkForUpdates():
-    remote_address = "https://raw.githubusercontent.com/leifengwl/JDRouterPush/main/config.ini"
-    headers = {
-        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36"
-    }
-    res = requests.get(url=remote_address, headers=headers)
-    if res.status_code == 200:
-        res_json = res.json()
-        final_result["announcement"] = res_json["announcement"]
-        if res_json["version"] != version:
-            final_result["updates_version"] = res_json["version"]
-            final_result["update_log"] = res_json["updateLog"]
-        else:
-            print("欢迎使用JDRouterPush!")
-    else:
-        print("checkForUpdate failed!")
+#def checkForUpdates():
+#    remote_address = "https://raw.githubusercontent.com/leifengwl/JDRouterPush/main/config.ini"
+#    headers = {
+#        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36"
+#    }
+#    res = requests.get(url=remote_address, headers=headers)
+#    if res.status_code == 200:
+#        res_json = res.json()
+#        final_result["announcement"] = res_json["announcement"]
+#        if res_json["version"] != version:
+#            final_result["updates_version"] = res_json["version"]
+#            final_result["update_log"] = res_json["updateLog"]
+#        else:
+#            print("欢迎使用JDRouterPush!")
+#    else:
+#        print("checkForUpdate failed!")
 
 
 # region 通知结果
@@ -226,12 +226,12 @@ def resultDisplay():
     point_infos = ""
     bindAccount = ""
     # 更新检测
-    if final_result.get("updates_version"):
-        content = content + "**JDRouterPush更新提醒:**" \
-                  + "\n```\n最新版：" + final_result["updates_version"] \
-                  + "  当前版本：" + version
-        if final_result.get("update_log"):
-            content = content + "\n" + final_result["update_log"] + "\n```"
+    #if final_result.get("updates_version"):
+    #    content = content + "**JDRouterPush更新提醒:**" \
+    #              + "\n```\n最新版：" + final_result["updates_version"] \
+     #             + "  当前版本：" + version
+    #    if final_result.get("update_log"):
+     #       content = content + "\n" + final_result["update_log"] + "\n```"
     if final_result.get("announcement"):
         content = content + "\n> " + final_result["announcement"] + " \n\n"
     for pointInfo in pointInfos:
@@ -253,9 +253,7 @@ def resultDisplay():
         if satisfiedTimes != "":
             point_infos = point_infos + "\n    - 累计在线：" + \
                           str(satisfiedTimes) + "天"
-        point_infos = point_infos + "\n    - 最近到期积分：" + str(recentExpireAmount) \
-                      + "\n    - 最近到期时间：" + recentExpireTime \
-                      + "\n    - 最近" + str(records_num) + "条记录："
+        point_infos = point_infos + "\n    - 最近" + str(records_num) + "条记录："
         for pointRecord in pointRecords:
             recordType = pointRecord["recordType"]
             recordType_str = ""
@@ -390,7 +388,7 @@ def main():
     if RECORDSNUM.isdigit():
         records_num = int(RECORDSNUM)
     resolveDeviceName(DEVICENAME)
-    checkForUpdates()
+#    checkForUpdates()
     todayPointIncome()
     todayPointDetail()
     pinTotalAvailPoint()
