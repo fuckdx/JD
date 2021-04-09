@@ -226,12 +226,12 @@ def resultDisplay():
     point_infos = ""
     bindAccount = ""
     # 更新检测
-    if final_result.get("updates_version"):
-        content = content + "**JDRouterPush更新提醒:**" \
-                  + "\n```\n最新版：" + final_result["updates_version"] \
-                  + "  当前版本：" + version
-        if final_result.get("update_log"):
-            content = content + "\n" + final_result["update_log"] + "\n```"
+    #if final_result.get("updates_version"):
+    #    content = content + "**JDRouterPush更新提醒:**" \
+    #              + "\n```\n最新版：" + final_result["updates_version"] \
+     #             + "  当前版本：" + version
+    #    if final_result.get("update_log"):
+     #       content = content + "\n" + final_result["update_log"] + "\n```"
     if final_result.get("announcement"):
         content = content + "\n> " + final_result["announcement"] + " \n\n"
     for pointInfo in pointInfos:
