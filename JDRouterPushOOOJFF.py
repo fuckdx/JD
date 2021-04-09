@@ -21,7 +21,7 @@ records_num = 5
 version = "20210314"
 
 # 环境变量
-WSKEY = os.environ.get("WSKEYOJF", "")  # 京东云无线宝中获取
+WSKEY = os.environ.get("WSKEYOOOJFF", "")  # 京东云无线宝中获取
 SERVERPUSHKEY = os.environ.get("SERVERPUSHKEY", "")  # Server酱推送
 TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")  # Telegram推送服务Token
 TG_USER_ID = os.environ.get("TG_USER_ID", "")  # Telegram推送服务UserId
