@@ -253,9 +253,7 @@ def resultDisplay():
         if satisfiedTimes != "":
             point_infos = point_infos + "\n    - 累计在线：" + \
                           str(satisfiedTimes) + "天"
-    #    point_infos = point_infos + "\n    - 最近到期积分：" + str(recentExpireAmount) \
-    #                  + "\n    - 最近到期时间：" + recentExpireTime \
-                      + "\n    - 最近" + str(records_num) + "条记录："
+        point_infos = point_infos + "\n    - 最近" + str(records_num) + "条记录："
         for pointRecord in pointRecords:
             recordType = pointRecord["recordType"]
             recordType_str = ""
