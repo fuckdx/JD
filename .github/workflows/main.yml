@@ -42,3 +42,5 @@ jobs:
         python JDRouterPushOOJT.py
         python JDRouterPushOOJF.py
         python JDRouterPushWSXY.py
+        python JDRouterPushNQBG.py
+        python JDRouterPushOOOJFF.py
