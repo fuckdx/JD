@@ -1,4 +1,4 @@
-name: JDPush
+name: main
 
 on:
   workflow_dispatch:
