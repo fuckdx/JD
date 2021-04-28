@@ -1,0 +1,111 @@
+#!/bin/bash
+# shell调用企业微信发送消息命令
+# ./weixin.sh ${人员} "消息"
+# 例：
+# ./weixin.sh [url=home.php?mod=space&uid=19415]@all[/url] "hello!"
+# ./weixin.sh maYun "hello!"
+# 注：
+# 消息中可以使用"\n"表示换行；
+# 消息中不可以使用空格；
+# 微信接口参数
+# 根据自己申请的企业微信上接口参数调整；
+
+# 设置环境变量
+export PATH='/etc/storage/bin:/tmp/script:/etc/storage/script:/opt/usr/sbin:/opt/usr/bin:/opt/sbin:/opt/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin'
+export LD_LIBRARY_PATH=/lib:/opt/lib
+
+expireTime=7200
+dbFile="/etc/storage/db.json"
+
+# 企业ID
+corpid='ID'
+# 应用凭证密钥corpsecret
+appsecret='appsecret'
+# 应用ID
+agentid=1000002
+
+timenow=`date +%Y-%m-%d//%H:%M:%S`
+
+if [ ! -f "$dbFile" ];then
+        touch "$dbFile"
+fi
+
+# 获取token
+req_time=`jq '.req_time' $dbFile`
+current_time=$(date +%s)
+refresh=false
+if [ ! -n "$req_time" ];then
+        refresh=true
+else
+        if [ $((current_time-req_time)) -gt $expireTime ];then
+        refresh=true
+        fi
+fi
+if $refresh ;then
+    # 获取accesstoken
+    token=$(curl "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${corpid}&corpsecret=${appsecret}" | jq -r '.access_token')
+    if [ -z "$token" ];then
+            logger -t "【企业微信】" "没有获取access_token,请检查参数值和jq安装状态,并手动删除缓存文件 rm /etc/storage/db.json"
+            exit
+    else
+            logger -t "【企业微信】" "获取access_token值:$token"
+        ## 保存文件
+        echo "" > $dbFile
+        echo -e "{" > $dbFile
+        echo -e "\t"access_token":"$token"," >> $dbFile
+            echo -e "\t"req_time":$current_time" >> $dbFile
+        echo -e "}" >> $dbFile
+    fi
+fi
+
+# 发送消息
+accesstoken=`jq -r '.access_token' $dbFile`
+
+msgsend_url="https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=${accesstoken}"
+
+json_params="{"touser":"${1}","msgtype":"text","agentid":"${agentid}","text":{"content":"${2}\n时间${timenow}"},"safe":"0"}"
+
+# curl -X POST ${msgsend_url} -d ${json_params}
+
+req_msg=$(curl -X POST ${msgsend_url} -d ${json_params} | jq -r '.errcode')
+
+if [ "$req_msg" = "0" ];then
+    logger -t "【企业微信】" "推送成功,返回代码:$req_msg"
+else
+    logger -t "【企业微信】" "推送失败,返回代码:$req_msg"
+fi
+
+# 如果access_token不合法,重新获取
+if [ "$req_msg" = "40014" ];then
+    logger -t "【企业微信】" "错误:不合法的access_token,重新获取"
+    token=$(curl "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${corpid}&corpsecret=${appsecret}" | jq -r '.access_token')
+    if [ -z "$token" ];then
+            logger -t "【企业微信】" "第二次没有获取access_token,请检查参数值和jq安装状态,并手动删除缓存文件 rm /etc/storage/db.json"
+            exit
+    else
+            logger -t "【企业微信】" "第二次获取access_token值:$token"
+        ## 保存文件
+        echo "" > $dbFile
+        echo -e "{" > $dbFile
+        echo -e "\t"access_token":"$token"," >> $dbFile
+            echo -e "\t"req_time":$current_time" >> $dbFile
+        echo -e "}" >> $dbFile
+    fi
+# 发送消息
+    accesstoken=`jq -r '.access_token' $dbFile`
+
+    msgsend_url="https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=${accesstoken}"
+
+    json_params="{"touser":"${1}","msgtype":"text","agentid":"${agentid}","text":{"content":"${2}\n时间${timenow}"},"safe":"0"}"
+
+    # curl -X POST ${msgsend_url} -d ${json_params}
+
+    req_msg=$(curl -X POST ${msgsend_url} -d ${json_params} | jq -r '.errcode')
+
+    if [ "$req_msg" = "0" ];then
+        logger -t "【企业微信】" "第二次推送成功,返回代码:$req_msg"
+    else
+        logger -t "【企业微信】" "第二次推送失败,返回代码:$req_msg"
+    fi
+        
+fi
