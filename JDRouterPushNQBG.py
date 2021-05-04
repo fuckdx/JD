@@ -1,11 +1,6 @@
 import datetime
 import requests
 import os
-import GlobalVariable
-import JDServiceAPI
-import NoticePush
-import NoticeTemplate
-from urllib.parse import quote
 
 # region 全局参数
 
@@ -152,11 +147,6 @@ def todayPointDetail():
             routerActivityInfo(mac)
             routerAccountInfo(mac)
             pointOperateRecordsShow(mac)
-             JDServiceAPI.getListAllUserDevices()
-
-        for mac in MACS:
-            JDServiceAPI.getControlDevice(mac,2)
-            JDServiceAPI.getControlDevice(mac,3)
     else:
         print("Request todayPointDetail failed!")
 
@@ -263,18 +253,6 @@ def resultDisplay():
         if satisfiedTimes != "":
             point_infos = point_infos + "\n    - 累计在线：" + \
                           str(satisfiedTimes) + "天"
-             point_infos +=  "\n    - 当前网速：" + pointInfo["speed"] \
-       	                      + "\n    - 当前IP：" + pointInfo["wanip"] \
-                      + "\n    - 当前模式：" + pointInfo["model"] \
-                      + "\n    - 固件版本：" + pointInfo["rom"]
-        if pointInfo.get("pluginInfo"):
-            point_infos +=  "\n    - 插件状态：" + pointInfo["status"] \
-                          + "\n    - 插件版本：" + pointInfo["nickname"] \
-                          + "\n    - 缓存大小：" + pointInfo["cache_size"] \
-                          + "\n    - PCDN：" + pointInfo["pcdnname"] 
-        point_infos +=  "\n    - 在线时间：" + pointInfo["onlineTime"] \
-                      + "\n    - 最近到期积分：" + str(recentExpireAmount) \
-                      + "\n    - 最近到期时间：" + recentExpireTime \
         point_infos = point_infos + "\n    - 最近" + str(records_num) + "条记录："
         for pointRecord in pointRecords:
             recordType = pointRecord["recordType"]
