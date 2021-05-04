@@ -1,6 +1,5 @@
 import datetime
-import requests	
-import os	
+import requests
 import GlobalVariable
 import JDServiceAPI
 import NoticePush
