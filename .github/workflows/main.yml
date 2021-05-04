@@ -41,7 +41,7 @@ jobs:
       run: |
         python JDRouterPushNQBG.py
         python JDRouterPushOOJF.py
-        python DRouterPushOOJT.py
+        python JDRouterPushOOJT.py
         python JDRouterPushOOOJFF.py
         python JDRouterPushWSXY.py
      
