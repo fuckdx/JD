@@ -234,7 +234,7 @@ def resultDisplay():
      #             + "  当前版本：" + version
     #    if final_result.get("update_log"):
      #       content = content + "\n" + final_result["update_log"] + "\n```"
-   if GlobalVariable.final_result.get("announcement"):
+    if final_result.get("announcement"):
         content = content + "\n> " + GlobalVariable.final_result["announcement"] + " \n\n"
     for pointInfo in pointInfos:
         mac = pointInfo["mac"]
