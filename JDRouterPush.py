@@ -11,14 +11,33 @@ headers = {
     "x-app-id": "996",
     "Content-Type": "application/json"
 }
-# Store query results
+cmds = [
+    "get_device_list",    # 获取设备列表 在线与离线的客户端状态
+    "get_router_status_info",    # 获取路由器状态信息 上传与下载
+    "get_router_status_detail",    # 获取路由器版本 mac  sn  上传  下载  cpu  路由在线时间(秒)  wanip  内存
+    "jdcplugin_opt.get_pcdn_status",    # 获取路由器插件版本   缓存大小
+]
+
+# 请求参数
+service_pram = {
+    "hard_platform":'MI 6',
+    "app_version":"6.5.5",
+    "plat_version":9,
+    "channel":"jdCloud",
+    "plat":"Android"
+}
+
+service_body = '{"feed_id":"%s","command":[{"current_value":{"cmd":"%s"},"stream_id":"SetParams"}]}'
+
+# 查询后的总结果
 final_result = {}
 # 设备名
 device_name = {}
+# 设备MAC 昵称 feed_id
+device_list = {}
 # 记录数
 records_num = 5
-# 当前版本
-version = "20210314"
+
 
 # 环境变量
 WSKEY = os.environ.get("WSKEY", "")  # 京东云无线宝中获取
