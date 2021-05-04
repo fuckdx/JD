@@ -265,7 +265,7 @@ def resultDisplay():
         if pointInfo.get("satisfiedTimes"):
             satisfiedTimes = pointInfo["satisfiedTimes"]
         pointRecords = pointInfo["pointRecords"]
-        point_infos = point_infos + "\n" + "- " + device_name.get(str(mac[-6:], "京东云无线宝_" + str(mac[-3:])) + "==>" \
+        point_infos = point_infos + "\n" + "- " +device_name.get(str(mac[-6:]), device_list[mac]["device_name"])) + "==>" \
                       + "\n    - 今日积分：" + str(todayPointIncome) \
                       + "\n    - 可用积分：" + str(amount) \
                       + "\n    - 总收益积分：" + str(allPointIncome)
